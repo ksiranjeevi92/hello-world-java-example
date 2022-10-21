@@ -3,20 +3,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'make package'
+                bat 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'make check'
+                bat 'mvn test'
             }
         }
         stage('Deploy') {
             when { tag "release-*" }
             steps {
-                echo 'Deploying only because this commit is tagged...'
-                sh 'make deploy'
+                bat 'echo make deploy'
             }
+        }
+    }
+    post{
+        always{
+            cleanWs()
         }
     }
 }
