@@ -24,9 +24,9 @@ pipeline {
         stage ("Print My Name") {
             steps{
                 script{
-                    bat """"
+                    bat '''
                       echo Maintainer  ${env.NAME} frpm ${env.TEAM}
-                    """"
+                    '''
                 }
             }
         }      
