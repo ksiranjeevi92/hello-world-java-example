@@ -9,8 +9,7 @@ pipeline {
             steps {
                 bat 'echo "My first pipeline"'
                 bat '''
-                    echo "By the way, I can do more stuff in here"
-                    ls -lah
+                    echo "By the way, I can do more stuff in here"                
                 '''
             }
         }
