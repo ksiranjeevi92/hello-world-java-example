@@ -1,3 +1,5 @@
+def tag_val = 'v*.*.*-alpha'
+
 pipeline {
     agent any
     environment {        
@@ -9,6 +11,10 @@ pipeline {
     }
     stages {
         stage('Build') {
+            when{
+                beforeAgent true
+                branch tag_val
+            }
             steps {
                 bat 'echo "My first pipeline"'
                 bat '''
@@ -18,6 +24,10 @@ pipeline {
             }
         }
         stage ('Deploy') {
+            when{
+                beforeAgent true
+                branch tag_val
+            }
             steps {
                 script {
                     deploy adapters: [tomcat8(credentialsId: 'tomcat-deployer', path: '', url: 'http://localhost:8080')],contextPath: '', onFailure: false, war: '**/*.war' 
@@ -37,6 +47,7 @@ pipeline {
     post {
         always {
             bat 'echo I will always get executed :D'
+            cleasWs();
         }
         success {
             bat 'echo I will only get executed if this success'
