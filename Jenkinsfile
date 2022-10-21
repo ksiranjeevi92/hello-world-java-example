@@ -12,8 +12,7 @@ pipeline {
     stages {
         stage('Build') {
             when{
-                beforeAgent true
-                branch tag_val
+                tag tag_val
             }
             steps {
                 bat 'echo "My first pipeline"'
@@ -33,21 +32,11 @@ pipeline {
                     deploy adapters: [tomcat8(credentialsId: 'tomcat-deployer', path: '', url: 'http://localhost:8080')],contextPath: '', onFailure: false, war: '**/*.war' 
                 }
             }
-        }  
-        stage ("Print My Name") {
-            steps{
-                script{
-                    bat '''
-                      echo Maintainer  ${env.NAME} frpm ${env.TEAM}
-                    '''
-                }
-            }
         }      
     }
     post {
         always {
             bat 'echo I will always get executed :D'
-            cleasWs();
         }
         success {
             bat 'echo I will only get executed if this success'
