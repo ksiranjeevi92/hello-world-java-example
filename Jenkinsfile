@@ -17,7 +17,7 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script {
-                    deploy adapters: [tomcat7(credentialsId: 'tomcat_credential', path: '', url: 'http://localhost:8080')], onFailure: false, war: '**/*.war' 
+                    deploy adapters: [tomcat7(credentialsId: 'tomcat-deployer', path: '', url: 'http://localhost:8080')], onFailure: false, war: '**/*.war' 
                 }
             }
         }  
