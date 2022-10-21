@@ -4,19 +4,23 @@ pipeline {
         NAME = 'Siranjeevi'
         TEAM = 'DX'
     }
+    options{
+        buildDiscarder(logRotator(daysToKeepStr: '1', numToKeepStr: '30', artifactNumToKeepStr: '30'))
+    }
     stages {
         stage('Build') {
             steps {
                 bat 'echo "My first pipeline"'
                 bat '''
-                    echo "By the way, I can do more stuff in here"                
+                    echo "By the way, I can do more stuff in here"
                 '''
+                bat 'mvn clean package'
             }
         }
         stage ('Deploy') {
             steps {
                 script {
-                    deploy adapters: [tomcat7(credentialsId: 'tomcat-deployer', path: '', url: 'http://localhost:8080')], onFailure: false, war: '**/*.war' 
+                    deploy adapters: [tomcat8(credentialsId: 'tomcat-deployer', path: '', url: 'http://localhost:8080')],contextPath: '', onFailure: false, war: '**/*.war' 
                 }
             }
         }  
